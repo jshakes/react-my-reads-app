@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 
-class PopulateShelf extends Component {
+class BookItem extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
     shelfName: PropTypes.string,
@@ -10,10 +10,10 @@ class PopulateShelf extends Component {
 	}
 
 
-  onUpdateShelf = (book, newShelf) => {
-    console.log(`Updating book: ${book} to ${newShelf}`)
+  changeShelf = (book, newShelf) => {
+    console.log(`Updating book: ${book.title} to ${newShelf}`)
     BooksAPI.update(book, newShelf)
-    this.props.handleBookShelfChange(book.id, newShelf)
+    this.props.handleBookShelfChange(book, newShelf)
   }
 
   render() {
@@ -26,16 +26,17 @@ class PopulateShelf extends Component {
     else{
       shelfItems = books
     }
+
     return(
       <ol className="books-grid">
-        {shelfItems.map((books) =>
-          <li key={books.id}>
+        {shelfItems.map((book) =>
+          <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${books.imageLinks.thumbnail})` }}></div>
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                 <div className="book-shelf-changer">
-                  <select value={books.shelf} onChange={(event) => this.onUpdateShelf(books, event.target.value)}>
-                    <option value="none" disabled>Move to...</option>
+                  <select value={book.shelf} onChange={(event) => this.changeShelf(book, event.target.value)}>
+                    <option value="default" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
                     <option value="read">Read</option>
@@ -43,8 +44,8 @@ class PopulateShelf extends Component {
                   </select>
                 </div>
               </div>
-              <div className="book-title">{books.title}</div>
-              <div className="book-authors">{books.authors.join(', ')}</div>
+              <div className="book-title">{book.title}</div>
+              <div className="book-authors">{book.authors ? book.authors.join(', ') : 'Unknown'}</div>
             </div>
           </li>
         )}
@@ -52,4 +53,4 @@ class PopulateShelf extends Component {
       )
     }
 }
-export default PopulateShelf
+export default BookItem

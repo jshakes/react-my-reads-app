@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import ListBooks from './ListBooks'
-import SearchBooks from './SearchBooks'
+import AddBooks from './AddBooks'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -16,34 +16,35 @@ class BooksApp extends React.Component {
 		})
 	}
 
-  handleBookShelfChange = (id, shelf) => {
+  handleBookShelfChange = (newAddition, shelf) => {
     this.setState(state => {
       let newBooks = state.books.map(book => {
-        if (book.id === id) {
-            book.shelf = shelf;
+        if (book.id === newAddition.id) {
+            book.shelf = newAddition.shelf
+            console.log(`Looks like this one is on the list, changing shelf to ${newAddition.shelf}`)
         }
-        return book;
-      });
+        else{
+          console.log("another one")
+          this.appendBook(newAddition)
+        }
+      })
       return {books: newBooks};
-    });
+    })
   }
+
+
 
   render() {
     return (
       <div className="app">
           <Route exact path='/search' render={()=>(
-            <SearchBooks
+            <AddBooks
               books={this.state.books}
-              query={this.state.query}
-              searchLibrary={this.searchLibrary}
-              handleBookShelfChange={this.handleBookShelfChange}
               />
           )}/>
           <Route exact path='/' render={()=>(
             <ListBooks
               books={this.state.books}
-              onUpdateShelf={this.onUpdateShelf}
-              handleBookShelfChange={this.handleBookShelfChange}
               />
           )}/>
       </div>

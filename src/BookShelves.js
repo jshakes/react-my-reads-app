@@ -1,8 +1,8 @@
 import React, { Component }  from 'react'
-import PopulateShelf from './PopulateShelf'
+import BookItem from './BookItem'
 import PropTypes from 'prop-types'
 
-class CreateShelves extends Component{
+class BookShelves extends Component{
   static propTypes = {
 		books: PropTypes.array.isRequired,
     handleBookShelfChange: PropTypes.func
@@ -25,7 +25,7 @@ class CreateShelves extends Component{
             <div className="bookshelf" key={key.toString()}>
               <h2 className="bookshelf-title" key={key}>{shelves[key]}</h2>
               <div className="bookshelf-books">
-                <PopulateShelf
+                <BookItem
                   books={ books }
                   shelfName={ key }
                   handleBookShelfChange={handleBookShelfChange}
@@ -38,4 +38,4 @@ class CreateShelves extends Component{
     )
   }
 }
-export default CreateShelves
+export default BookShelves

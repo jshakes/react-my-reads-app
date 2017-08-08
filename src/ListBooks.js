@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import CreateShelves from './CreateShelves'
+import BookShelves from './BookShelves'
 import PropTypes from 'prop-types'
 
 class ListBooks extends Component {
@@ -19,7 +19,7 @@ class ListBooks extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-            <CreateShelves
+            <BookShelves
               books={books}
               handleBookShelfChange={handleBookShelfChange}
               />

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import PopulateShelf from './PopulateShelf'
+import BookItem from './BookItem'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 
-class searchBooks extends Component {
+class AddBooks extends Component {
   static propTypes = {
+    books: PropTypes.array.isRequired,
     handleBookShelfChange: PropTypes.func
 	}
   state={
@@ -14,10 +15,31 @@ class searchBooks extends Component {
   }
 
   searchLibrary = (query) =>{
-    BooksAPI.search(query).then((searchResult) => {
-      this.setState({searchResults:searchResult})
+    BooksAPI.search(query, 20).then((searchResult) => {
+      //console.log(this.compareSearchAgainstBooks(searchResult).length)
+      this.setState({
+        searchResults: this.compareSearchAgainstBooks(searchResult)
+      })
     })
   }
+
+  compareSearchAgainstBooks = (searchResult) => {
+    console.log(searchResult.length)
+    return searchResult.map(resultBook => {
+      resultBook.shelf = 'default'
+      // console.log(`Map Book: ${resultBook.title}`)
+      this.props.books.map(book =>{
+        // console.log(`Against: ${book.title}`)
+        if (resultBook.id === book.id){
+          resultBook.shelf = book.shelf
+          console.log(`RESULT! Matching Book: ${resultBook.title} of shelf result:${resultBook.shelf} Book:${book.shelf}`)
+        }
+        return resultBook
+      })
+      return resultBook
+    })
+  }
+
   updateQuery = (query) => {
     this.setState ({ query: query.trim() })
     if(query.length>1){
@@ -35,14 +57,6 @@ class searchBooks extends Component {
         <div className="search-books-bar">
           <Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
               <input
     						type='text'
     						placeholder='Search by title or author'
@@ -52,7 +66,7 @@ class searchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <PopulateShelf
+          <BookItem
             books={ searchResults }
             handleBookShelfChange={handleBookShelfChange}
             />
@@ -61,4 +75,4 @@ class searchBooks extends Component {
     )
   }
 }
-export default searchBooks
+export default AddBooks
