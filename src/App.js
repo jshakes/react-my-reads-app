@@ -16,21 +16,31 @@ class BooksApp extends React.Component {
 		})
 	}
 
-  handleBookShelfChange = (newAddition, shelf) => {
-    this.setState(state => {
-      let newBooks = state.books.map(book => {
-        if (book.id === newAddition.id) {
-            book.shelf = newAddition.shelf
-            console.log(`Looks like this one is on the list, changing shelf to ${newAddition.shelf}`)
-        }
-        else{
-          console.log("another one")
-          this.appendBook(newAddition)
-        }
-      })
-      return {books: newBooks};
-    })
-  }
+    updateShelf = (book, newShelf) => {
+      BooksAPI.update(book, newShelf)
+      this.setState({ books : this.handleShelfChange(book, shelf) })
+    }
+
+    handleShelfChange = (book, shelf) => {
+    //if the book exits on the shelf
+      //update the bookshelf state (map through the current books, find the book and update the shelf)
+    //else Append the book to the books state
+
+
+        // this.setState(state => {
+    //   let newBooks = state.books.map(book => {
+    //     if (book.id === newAddition.id) {
+    //         book.shelf = newAddition.shelf
+    //         console.log(`Looks like this one is on the list, changing shelf to ${newAddition.shelf}`)
+    //     }
+    //     else{
+    //       console.log("another one")
+    //       this.appendBook(newAddition)
+    //     }
+    //   })
+    //   return {books: newBooks};
+    // })
+    }
 
 
 

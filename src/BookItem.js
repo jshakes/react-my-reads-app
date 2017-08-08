@@ -1,20 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
 
 class BookItem extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
-    shelfName: PropTypes.string,
-    handleBookShelfChange: PropTypes.func
+    shelfName: PropTypes.string
 	}
-
-
-  changeShelf = (book, newShelf) => {
-    console.log(`Updating book: ${book.title} to ${newShelf}`)
-    BooksAPI.update(book, newShelf)
-    this.props.handleBookShelfChange(book, newShelf)
-  }
 
   render() {
     const { shelfName, books } = this.props

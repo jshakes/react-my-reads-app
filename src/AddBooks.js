@@ -6,8 +6,7 @@ import * as BooksAPI from './BooksAPI'
 
 class AddBooks extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired,
-    handleBookShelfChange: PropTypes.func
+    books: PropTypes.array.isRequired
 	}
   state={
     searchResults: [],
@@ -16,7 +15,6 @@ class AddBooks extends Component {
 
   searchLibrary = (query) =>{
     BooksAPI.search(query, 20).then((searchResult) => {
-      //console.log(this.compareSearchAgainstBooks(searchResult).length)
       this.setState({
         searchResults: this.compareSearchAgainstBooks(searchResult)
       })
@@ -27,12 +25,9 @@ class AddBooks extends Component {
     console.log(searchResult.length)
     return searchResult.map(resultBook => {
       resultBook.shelf = 'default'
-      // console.log(`Map Book: ${resultBook.title}`)
       this.props.books.map(book =>{
-        // console.log(`Against: ${book.title}`)
         if (resultBook.id === book.id){
-          resultBook.shelf = book.shelf
-          console.log(`RESULT! Matching Book: ${resultBook.title} of shelf result:${resultBook.shelf} Book:${book.shelf}`)
+          resultBook.shelf = book.shelfconsole.log(`RESULT! Matching Book: ${resultBook.title} of shelf result:${resultBook.shelf} Book:${book.shelf}`)
         }
         return resultBook
       })
@@ -49,7 +44,6 @@ class AddBooks extends Component {
 
   render() {
 
-    const { handleBookShelfChange } = this.props
     const { query, searchResults } = this.state
 
     return(
@@ -68,7 +62,6 @@ class AddBooks extends Component {
         <div className="search-books-results">
           <BookItem
             books={ searchResults }
-            handleBookShelfChange={handleBookShelfChange}
             />
         </div>
       </div>
