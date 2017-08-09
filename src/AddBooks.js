@@ -6,7 +6,7 @@ import * as BooksAPI from './BooksAPI'
 
 class AddBooks extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    updateShelf: PropTypes.func.isRequired
 	}
   state={
     searchResults: [],
@@ -18,16 +18,18 @@ class AddBooks extends Component {
       this.setState({
         searchResults: this.compareSearchAgainstBooks(searchResult)
       })
+    }).catch(() => {
+      console.log('No Results Found!')
+      this.setState({ searchResults: [] })
     })
   }
 
   compareSearchAgainstBooks = (searchResult) => {
-    console.log(searchResult.length)
     return searchResult.map(resultBook => {
       resultBook.shelf = 'default'
       this.props.books.map(book =>{
         if (resultBook.id === book.id){
-          resultBook.shelf = book.shelfconsole.log(`RESULT! Matching Book: ${resultBook.title} of shelf result:${resultBook.shelf} Book:${book.shelf}`)
+          resultBook.shelf = book.shelf
         }
         return resultBook
       })
@@ -37,14 +39,13 @@ class AddBooks extends Component {
 
   updateQuery = (query) => {
     this.setState ({ query: query.trim() })
-    if(query.length>1){
-      this.searchLibrary(query)
-    }
+    this.searchLibrary(query)
   }
 
   render() {
 
     const { query, searchResults } = this.state
+    const { updateShelf } = this.props
 
     return(
       <div className="search-books">
@@ -62,6 +63,7 @@ class AddBooks extends Component {
         <div className="search-books-results">
           <BookItem
             books={ searchResults }
+            updateShelf={updateShelf}
             />
         </div>
       </div>

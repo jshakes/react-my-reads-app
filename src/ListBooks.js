@@ -5,12 +5,13 @@ import PropTypes from 'prop-types'
 
 class ListBooks extends Component {
   static propTypes = {
-		books: PropTypes.array.isRequired
+		books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
 	}
 
   render() {
 
-    const { books } = this.props
+    const { books, updateShelf } = this.props
 
     return(
       <div className="list-books">
@@ -20,6 +21,7 @@ class ListBooks extends Component {
         <div className="list-books-content">
             <BookShelves
               books={books}
+              updateShelf={updateShelf}
               />
         </div>
         <div className="open-search">

@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 
 class BookShelves extends Component{
   static propTypes = {
-		books: PropTypes.array.isRequired
+		books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
 	}
 
   render() {
 
-    const { books } = this.props
+    const { books, updateShelf } = this.props
 
     let shelves = {
       currentlyReading: "Currently Reading",
@@ -27,6 +28,7 @@ class BookShelves extends Component{
                 <BookItem
                   books={ books }
                   shelfName={ key }
+                  updateShelf={updateShelf}
                   />
               </div>
             </div>
