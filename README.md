@@ -23,8 +23,8 @@ Install and start the server.
 
 ### Todos
 
- - Write MORE Tests
- - Add Night Mode
+ - Write Tests
+ - Add more book meta-data
 
 License
 ----
